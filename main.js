@@ -43,6 +43,7 @@ const createWindow = () => {
     width: 1440,
     height: 960,
     frame: false,
+    title: 'StarRocom 星洛 - 洛克王国工具',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
