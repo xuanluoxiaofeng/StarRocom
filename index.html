@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+    <title>星洛 StarRocom</title>
+    <link rel="icon" href="./1.ico">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="titlebar">
+      <div class="titlebar-title">星洛 StarRocom</div>
+      <div class="titlebar-controls">
+        <button class="titlebar-btn" id="btn-minimize" title="最小化">
+          <img src="resources/image/最小化.png" alt="最小化">
+        </button>
+        <button class="titlebar-btn close" id="btn-close" title="关闭">
+          <img src="resources/image/关闭.png" alt="关闭">
+        </button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="pokedex-container">
+        <div class="sidebar">
+          <div class="sidebar-menu">
+            <div class="sidebar-item active" id="nav-pokedex">
+              <span class="sidebar-label">图鉴</span>
+            </div>
+            <div class="sidebar-item" id="nav-search-pet">
+              <span class="sidebar-label">查蛋</span>
+            </div>
+            <div class="sidebar-item" id="nav-about">
+              <span class="sidebar-label">关于</span>
+            </div>
+          </div>
+        </div>
+        <div class="pokedex-grid" id="pokedex-grid">
+          <div class="grid-header">
+            <div class="grid-header-left">
+              <span class="grid-title">精灵图鉴</span>
+              <span class="grid-count" id="grid-count">共 0 只精灵</span>
+            </div>
+            <div class="grid-header-right">
+              <div class="pagination" id="pagination">
+                <div class="pagination-jump">
+                  <span>跳转到</span>
+                  <input type="number" id="page-jump-input" min="1" value="1">
+                  <span>页</span>
+                  <button class="pagination-btn" id="page-jump-btn">跳转</button>
+                </div>
+                <button class="pagination-btn" id="prev-page">上一页</button>
+                <span class="pagination-info" id="page-info">第 1 页 / 共 1 页</span>
+                <button class="pagination-btn" id="next-page">下一页</button>
+              </div>
+              <div class="search-wrapper">
+                <input type="text" class="grid-search" id="search-input" placeholder="搜索精灵...">
+                <div class="search-suggestions" id="search-suggestions"></div>
+              </div>
+            </div>
+          </div>
+          <div class="filter-section">
+            <div class="type-filter" id="type-filter">
+              <span class="type-filter-label">筛选：</span>
+              <button class="type-filter-btn active" data-type="all">全部</button>
+              <button class="type-filter-btn" data-type="Normal">普通</button>
+              <button class="type-filter-btn" data-type="Grass">草</button>
+              <button class="type-filter-btn" data-type="Fire">火</button>
+              <button class="type-filter-btn" data-type="Water">水</button>
+              <button class="type-filter-btn" data-type="Light">光</button>
+              <button class="type-filter-btn" data-type="Ground">地</button>
+              <button class="type-filter-btn" data-type="Ice">冰</button>
+              <button class="type-filter-btn" data-type="Dragon">龙</button>
+              <button class="type-filter-btn" data-type="Electric">电</button>
+              <button class="type-filter-btn" data-type="Poison">毒</button>
+              <button class="type-filter-btn" data-type="Bug">虫</button>
+              <button class="type-filter-btn" data-type="Fighting">武</button>
+              <button class="type-filter-btn" data-type="Flying">翼</button>
+              <button class="type-filter-btn" data-type="Illusion">萌</button>
+              <button class="type-filter-btn" data-type="Ghost">幽</button>
+              <button class="type-filter-btn" data-type="Dark">恶</button>
+              <button class="type-filter-btn" data-type="Mechanical">机械</button>
+              <button class="type-filter-btn" data-type="Illusion">幻</button>
+              <div style="width: 100%; margin-top: 4px;"></div>
+              <span class="egg-filter-label" style="margin-right: 4px;">蛋组：</span>
+              <button class="egg-filter-btn active" data-group="all">全部蛋组</button>
+              <button class="egg-filter-btn" data-group="动物组">动物组</button>
+              <button class="egg-filter-btn" data-group="拟人组">拟人组</button>
+              <button class="egg-filter-btn" data-group="巨灵组">巨灵组</button>
+              <button class="egg-filter-btn" data-group="魔力组">魔力组</button>
+              <button class="egg-filter-btn" data-group="天空组">天空组</button>
+              <button class="egg-filter-btn" data-group="大地组">大地组</button>
+              <button class="egg-filter-btn" data-group="海洋组">海洋组</button>
+              <button class="egg-filter-btn" data-group="昆虫组">昆虫组</button>
+              <button class="egg-filter-btn" data-group="植物组">植物组</button>
+              <button class="egg-filter-btn" data-group="龙组">龙组</button>
+              <button class="egg-filter-btn" data-group="妖精组">妖精组</button>
+              <button class="egg-filter-btn" data-group="机械组">机械组</button>
+              <button class="egg-filter-btn" data-group="两栖组">两栖组</button>
+              <button class="egg-filter-btn" data-group="软体组">软体组</button>
+              <button class="egg-filter-btn" data-group="无法孵蛋组">无法孵蛋组</button>
+              <button class="egg-filter-btn" data-group="yise">✨ 异色</button>
+            </div>
+          </div>
+          <div class="pets-grid-wrapper">
+            <div class="pets-grid" id="pets-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="search-pet-container" id="search-pet-container" style="display: none;">
+      <div class="pokedex-grid">
+        <div class="grid-header">
+          <div class="grid-header-left">
+            <span class="grid-title">精灵查蛋</span>
+            <span class="grid-count" id="results-count">共 0 只精灵</span>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="search-form-row">
+            <div class="search-form-group">
+              <label>尺寸 (m)</label>
+              <input type="number" id="pet-height" placeholder="输入尺寸" min="0" step="0.01">
+            </div>
+            <div class="search-form-group">
+              <label>体重 (kg)</label>
+              <input type="number" id="pet-weight" placeholder="输入体重" min="0" step="0.1">
+            </div>
+          </div>
+          <div class="search-form-actions">
+            <button class="search-btn" id="search-pet-btn">查询</button>
+            <button class="reset-btn" id="reset-search-btn">重置</button>
+          </div>
+        </div>
+        <div class="pets-grid-wrapper">
+          <div class="search-results-grid" id="search-results-grid"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="about-container" id="about-container">
+      <div class="about-content">
+        <div class="about-header">
+          <h1>星洛 StarRocom</h1>
+          <p class="about-subtitle">洛克王国精灵图鉴查询工具</p>
+        </div>
+        
+        <div class="about-section">
+          <h2>应用信息</h2>
+          <div class="about-info-card">
+            <div class="about-info-item">
+              <span class="about-label">版本</span>
+              <span class="about-value">测试版本</span>
+            </div>
+            <div class="about-info-item">
+              <span class="about-label">类型</span>
+              <span class="about-value">桌面应用</span>
+            </div>
+            <div class="about-info-item">
+              <span class="about-label">平台</span>
+              <span class="about-value">Windows</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="about-section">
+          <h2>功能介绍</h2>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="about-feature-icon">📖</div>
+              <div class="about-feature-text">
+                <h3>精灵图鉴</h3>
+                <p>浏览所有洛克王国精灵，查看详细信息、属性、能力值和技能</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">🥚</div>
+              <div class="about-feature-text">
+                <h3>查蛋预测</h3>
+                <p>根据精灵蛋的尺寸和体重范围，预测对应的精灵</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">洛</div>
+              <div class="about-feature-text">
+                <h3>更多内容</h3>
+                <p>敬请期待</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="about-footer">
+          <p>© 2026 星洛 StarRocom - 洛克王国图鉴工具</p>
+          <p class="about-credits">制作人：璇洛</p>
+          <p class="about-ai-notice">本软件有部分使用 AI 工具</p>
+          <div class="about-links">
+            <a href="#" data-url="https://github.com/xuanluoxiaofeng" class="about-link" id="link-github">
+              <span>GitHub</span>
+            </a>
+            <a href="#" data-url="https://space.bilibili.com/345719547" class="about-link" id="link-bilibili">
+              <span>哔哩哔哩</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pet-modal" id="pet-modal">
+      <div class="pet-modal-content">
+        <div class="modal-header">
+          <div class="modal-header-left">
+            <div class="pet-image-small" id="modal-header-image">
+              <img id="modal-header-img" src="" alt="">
+            </div>
+            <div class="modal-title-info">
+              <h2 id="modal-title">精灵详情</h2>
+              <div class="modal-sub-info">
+                <span class="pet-id-display" id="modal-pet-id"></span>
+                <span class="pet-types-display" id="modal-pet-types"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-header-right">
+            <button class="modal-close" id="modal-close">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <div class="modal-left-panel">
+            <div class="pet-main-image-card">
+              <div class="pet-image-large-wrapper">
+                <img id="pet-detail-image" src="" alt="精灵主图" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23eee%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22>?</text></svg>'">
+              </div>
+              <div class="pet-name-title-large" id="modal-pet-name-large"></div>
+              <div class="pet-form-subtitle-large" id="modal-pet-form-large"></div>
+              <div class="pet-types-row-large" id="modal-pet-types-large"></div>
+              <div class="form-switcher-large" id="modal-form-switcher"></div>
+            </div>
+            
+            <div class="info-cards-container">
+              <div class="info-card">
+                <h4 class="card-title">属性信息</h4>
+                <div class="card-content">
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <span class="info-label">特性</span>
+                      <span class="info-value" id="info-trait"></span>
+                    </div>
+                    <div class="info-item trait-desc-item">
+                      <span class="info-label">效果</span>
+                      <span class="info-value trait-desc" id="info-trait-desc"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stats-section-card">
+                <h4 class="card-title">基础属性</h4>
+                <div class="card-content">
+                  <div class="stats-section-new" id="left-stats-section">
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">生命</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #4caf50"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-hp-left"></span>
+                    </div>
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">物攻</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #ff6b35"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-phy-atk-left"></span>
+                    </div>
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">魔攻</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #4a9eff"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-mag-atk-left"></span>
+                    </div>
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">物防</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #ff9800"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-phy-def-left"></span>
+                    </div>
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">魔防</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #9c27b0"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-mag-def-left"></span>
+                    </div>
+                    <div class="stat-row-new">
+                      <span class="stat-label-new">速度</span>
+                      <div class="stat-bar-container-new">
+                        <div class="stat-bar-new" style="width: 0%; background: #00bcd4"></div>
+                      </div>
+                      <span class="stat-value-new" id="stat-spd-left"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-right-panel">
+            <div class="evolution-section">
+                <div class="evolution-header">
+                  <h4>进化链</h4>
+                </div>
+                <div class="evolution-content">
+                  <div class="evolution-chain" id="evolution-chain">
+                    <div class="evo-node">
+                      <div class="evo-image-wrapper">
+                        <img class="evo-img" src="" alt="">
+                      </div>
+                      <div class="evo-name"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+            <div class="moves-section-new">
+              <div class="moves-header-new">
+                <h4>技能列表</h4>
+                <span class="moves-count-new" id="moves-count-new"></span>
+              </div>
+              <div class="moves-content-new">
+                <div class="moves-grid-new" id="moves-grid-new"></div>
+                <div class="moves-pagination-new" id="moves-pagination-new">
+                  <button class="moves-pagination-btn-new" id="moves-prev-new">上一页</button>
+                  <span class="moves-pagination-info-new" id="moves-page-info-new">第 1 页</span>
+                  <button class="moves-pagination-btn-new" id="moves-next-new">下一页</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="hatch-info-section">
+              <h4>孵化信息</h4>
+              <div class="hatch-info-content">
+                <div class="info-item">
+                  <span class="info-label">孵化时间</span>
+                  <span class="info-value" id="info-hatch"></span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">尺寸</span>
+                  <span class="info-value" id="info-height"></span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">体重</span>
+                  <span class="info-value" id="info-weight"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    
+    <script src="renderer.js"></script>
+  </body>
+</html>
