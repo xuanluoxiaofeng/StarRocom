@@ -80,7 +80,6 @@
   "build": {
     "appId": "com.starrocom.lkwggjx",
     "productName": "洛克王国精灵图鉴",
-    "publish": null,
     "directories": {
       "output": "dist"
     },

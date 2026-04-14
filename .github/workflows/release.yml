@@ -24,13 +24,11 @@ jobs:
 
       - name: Build Windows app
         run: npm run build:win
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: List dist files
-        run: ls -la dist/
+        run: dir dist\*.exe
 
-      - name: Upload Release Asset
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
