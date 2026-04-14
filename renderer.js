@@ -890,6 +890,23 @@
         })
       })
       
+      // 检查更新按钮
+      const checkUpdateBtn = document.getElementById('check-update-btn')
+      if (checkUpdateBtn) {
+        checkUpdateBtn.addEventListener('click', async () => {
+          checkUpdateBtn.disabled = true
+          checkUpdateBtn.textContent = '正在检查更新...'
+          
+          try {
+            await window.electronAPI.checkForUpdates()
+          } catch (error) {
+            console.error('检查更新失败:', error)
+            checkUpdateBtn.textContent = '检查更新'
+            checkUpdateBtn.disabled = false
+          }
+        })
+      }
+      
       const searchPetBtn = document.getElementById('search-pet-btn')
       const resetSearchBtn = document.getElementById('reset-search-btn')
       const resultsCount = document.getElementById('results-count')

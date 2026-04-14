@@ -2600,6 +2600,16 @@
         box-shadow: 0 4px 12px rgba(153, 153, 153, 0.2);
       }
       
+      .about-link:active {
+        transform: translateY(0);
+      }
+      
+      .about-link:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
       .link-icon {
         font-size: 16px;
       }
