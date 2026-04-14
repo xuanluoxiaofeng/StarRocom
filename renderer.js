@@ -880,6 +880,15 @@
         const url = bilibiliLink.getAttribute('data-url')
         window.electronAPI.openExternal(url)
       })
+
+      // 关于界面地图链接点击事件
+      document.querySelectorAll('.about-link-btn').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault()
+          const url = link.getAttribute('data-url')
+          window.electronAPI.openExternal(url)
+        })
+      })
       
       const searchPetBtn = document.getElementById('search-pet-btn')
       const resetSearchBtn = document.getElementById('reset-search-btn')
