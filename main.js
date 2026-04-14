@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, shell, BrowserView } = require('electron')
 const path = require('path')
 const fs = require('fs')
-const { autoUpdater } = require('electron-updater')
 
 const configPath = path.join(app.getPath('userData'), 'config.json')
 
@@ -175,37 +174,6 @@ ipcMain.handle('open-external', async (event, url) => {
     console.error('打开外部链接失败:', error)
     return { success: false, error: error.message }
   }
-})
-
-// 检查更新
-ipcMain.handle('check-for-updates', () => {
-  autoUpdater.checkForUpdates()
-})
-
-// 自动更新配置
-autoUpdater.autoDownload = false
-autoUpdater.allowDowngrade = true
-
-// 监听更新事件
-autoUpdater.on('checking-for-update', () => {
-  console.log('正在检查更新...')
-})
-
-autoUpdater.on('update-available', (info) => {
-  console.log('发现新版本:', info.version)
-})
-
-autoUpdater.on('update-not-available', (info) => {
-  console.log('已是最新版本:', info.version)
-})
-
-autoUpdater.on('download-progress', (progress) => {
-  console.log('下载进度:', progress.percent + '%')
-})
-
-autoUpdater.on('update-downloaded', (info) => {
-  console.log('更新下载完成:', info.version)
-  autoUpdater.quitAndInstall()
 })
 
 app.whenReady().then(() => {
